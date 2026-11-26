@@ -2,7 +2,7 @@
 datasets/raw/personal_faces/
 datasets/processed/aligned_faces/
 datasets/processed/landmarks68/
-identity_embeddings.npz
+!/identity_embeddings.npz
 datasets/processed/identity_embeddings.npz
 __pycache__/
 *.pyc
