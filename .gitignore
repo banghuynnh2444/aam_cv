@@ -4,9 +4,6 @@ datasets/processed/aligned_faces/
 datasets/processed/landmarks68/
 identity_embeddings.npz
 datasets/processed/identity_embeddings.npz
-checkpoints/*.onnx
-checkpoints/*.pth
-checkpoints/*.pt
 __pycache__/
 *.pyc
 
@@ -21,7 +18,6 @@ datasets/
 evaluations/
 experiments/
 exports/
-checkpoints/
 dataset_inventory.csv
 image_quality_report.csv
 enrollment_manifest.csv
@@ -39,3 +35,12 @@ venv/
 .idea/
 .vscode/
 .pytest_cache/
+
+# Checkpoints: only the models the realtime demo loads are committed
+checkpoints/*
+!checkpoints/scrfd_2.5g_bnkps.onnx
+!checkpoints/w600k_r50.onnx
+!checkpoints/classical_aam_model.npz
+!checkpoints/aam_cascade_sdm_v2.npz
+!checkpoints/dan_rafdb_best.pth
+!checkpoints/effnet_b0_fairface_v3.pth
