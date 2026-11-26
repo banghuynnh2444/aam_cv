@@ -1,0 +1,41 @@
+# Personal data & biometric embeddings protection (Phase 1 Step 6 rule)
+datasets/raw/personal_faces/
+datasets/processed/aligned_faces/
+datasets/processed/landmarks68/
+identity_embeddings.npz
+datasets/processed/identity_embeddings.npz
+checkpoints/*.onnx
+checkpoints/*.pth
+checkpoints/*.pt
+__pycache__/
+*.pyc
+
+# Archived junk (safe to delete after review)
+_archive_cleanup/
+
+# FairFace official train (86,744 images, CC BY 4.0) - download from github.com/joojs/fairface
+datasets/raw/FairFace_official/
+
+# Downloaded datasets, generated outputs and local transfer bundles
+datasets/
+evaluations/
+experiments/
+exports/
+checkpoints/
+dataset_inventory.csv
+image_quality_report.csv
+enrollment_manifest.csv
+validation_manifest.csv
+test_manifest.csv
+
+# Local environments, credentials and editor files
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.idea/
+.vscode/
+.pytest_cache/

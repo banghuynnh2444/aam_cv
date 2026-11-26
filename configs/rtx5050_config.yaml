@@ -1,0 +1,74 @@
+# Hybrid AAM + Deep Learning Face Analysis & Recognition — RTX 5050 8GB Configuration
+hardware:
+  os: "Windows 11"
+  gpu: "NVIDIA GeForce RTX 5050 Laptop GPU (Blackwell, 8GB VRAM)"
+  ram_gb: 32
+  amp_fp16: true
+  max_concurrent_gpu_trainers: 1
+
+identities:
+  0: "Bang"
+  1: "Lap"
+  2: "Thao"
+  3: "Thuan"
+  -1: "Unknown"
+
+modules:
+  detection:
+    model: "SCRFD-2.5G-KPS"
+    checkpoint: "checkpoints/scrfd_2.5g_bnkps.onnx"
+    input_size: [640, 640]
+    conf_thresh: 0.45
+    nms_thresh: 0.40
+
+  tracking:
+    algorithm: "ByteTrack + ArcFace Embedding ReID"
+    high_thresh: 0.55
+    low_thresh: 0.25
+    iou_thresh: 0.25
+    reid_sim_thresh: 0.58
+    max_time_lost_frames: 45
+
+  classical_aam:
+    method: "Generalized Procrustes Analysis + Delaunay Piecewise Affine + PCA + Project-Out Fitting"
+    checkpoint: "checkpoints/classical_aam_model.npz"
+    texture_size: [128, 128]
+    chunk_size: 64
+    shape_variance_retained: 0.96
+    texture_variance_retained: 0.95
+    fitting_iterations: 8
+
+  recognition:
+    model: "ArcFace-ResNet50 (w600k_r50.onnx)"
+    checkpoint: "checkpoints/w600k_r50.onnx"
+    database: "identity_embeddings.npz"
+    aligned_face_size: [112, 112]
+    embedding_dim: 512
+    calibrated_cosine_threshold: 0.4800
+    scoring_formula: "0.65 * top3_gallery_cosine + 0.35 * centroid_cosine"
+
+  emotion_dan:
+    architecture: "DAN (Distract Your Attention Network - ResNet18 + 4 Spatial/Channel Attention Heads)"
+    dataset: "RAF-DB (7 classes: Neutral, Happy, Sad, Surprise, Fear, Disgust, Anger)"
+    input_size: [224, 224]
+    batch_size: 8
+    max_epochs: 40
+    optimizer: "AdamW"
+    lr_head: 1.0e-4
+    lr_backbone: 1.0e-5
+    weight_decay: 1.0e-4
+    scheduler: "CosineAnnealingLR"
+    grad_clip_norm: 1.0
+
+  attributes_effnet:
+    architecture: "MultiTaskEfficientNetB0 (Age Groups + Gender-Label)"
+    dataset: "FairFace"
+    input_size: [224, 224]
+    batch_size: 16
+    max_epochs: 35
+    optimizer: "AdamW"
+    lr_head: 1.0e-4
+    lr_backbone: 1.0e-5
+    weight_decay: 1.0e-4
+    scheduler: "CosineAnnealingLR"
+    grad_clip_norm: 1.0
